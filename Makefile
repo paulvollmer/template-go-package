@@ -9,17 +9,16 @@ GOARCH = amd64
 
 all: fmt lint test build
 
-install:
-	go get -v
-	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-
 fmt:
 	@go fmt ./...
+
+install-lint:
+	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 
 lint:
 	@golangci-lint run -E misspell ./...
 
-.PHONY: fmt lint
+.PHONY: fmt install-lint lint
 
 test:
 	@go test -count=1 ./...

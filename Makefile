@@ -1,0 +1,44 @@
+all: fmt lint test build
+
+fmt:
+	@go fmt ./...
+
+lint:
+	@golint ./...
+
+.PHONY: fmt lint
+
+test:
+	@go test ./...
+
+test-cov:
+	@go test ./...
+
+.PHONY: test test-cov
+
+CURRENT_DIR := $(shell pwd)
+TIMESTAMP := $(shell date "+%s")
+VERSION := 0.0.0
+GIT_HASH := $(shell git rev-parse --short HEAD)
+LDFLAGS = -ldflags "-X main.version=${VERSION} -X main.commit=${GIT_HASH}"
+BINARY = template
+BUILD_DIR = cmd/template
+GOARCH = amd64
+build:
+	@cd ${BUILD_DIR} && go build ${LDFLAGS} -o ${BINARY}
+
+build-linux:
+	@cd ${BUILD_DIR} && GOOS=linux GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-linux-${GOARCH}
+
+build-darwin:
+	@cd ${BUILD_DIR} && GOOS=darwin GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-darwin-${GOARCH}
+
+build-windows:
+	@cd ${BUILD_DIR} && GOOS=windows GOARCH=${GOARCH} go build ${LDFLAGS} -o ${BINARY}-windows-${GOARCH}.exe
+
+.PHONY: build build-linux build-darwin build-windows
+
+clean:
+	@rm -f ${BINARY}*
+
+.PHONY: clean

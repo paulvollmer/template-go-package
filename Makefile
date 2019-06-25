@@ -1,3 +1,12 @@
+CURRENT_DIR := $(shell pwd)
+TIMESTAMP := $(shell date "+%s")
+VERSION := 0.0.0
+GIT_HASH := $(shell git rev-parse --short HEAD)
+LDFLAGS = -ldflags "-X main.version=${VERSION} -X main.commit=${GIT_HASH}"
+BINARY = template
+BUILD_DIR = cmd/template
+GOARCH = amd64
+
 all: fmt lint test build
 
 fmt:
@@ -9,21 +18,14 @@ lint:
 .PHONY: fmt lint
 
 test:
-	@go test ./...
+	@go test -count=1 ./...
 
 test-cov:
-	@go test ./...
+	@go test -count=1 -coverprofile=coverage.out ./...
+	@go tool cover -html=coverage.out
 
 .PHONY: test test-cov
 
-CURRENT_DIR := $(shell pwd)
-TIMESTAMP := $(shell date "+%s")
-VERSION := 0.0.0
-GIT_HASH := $(shell git rev-parse --short HEAD)
-LDFLAGS = -ldflags "-X main.version=${VERSION} -X main.commit=${GIT_HASH}"
-BINARY = template
-BUILD_DIR = cmd/template
-GOARCH = amd64
 build:
 	@cd ${BUILD_DIR} && go build ${LDFLAGS} -o ${BINARY}
 
@@ -39,6 +41,7 @@ build-windows:
 .PHONY: build build-linux build-darwin build-windows
 
 clean:
-	@rm -f ${BINARY}*
+	@rm -f ${BUILD_DIR}/${BINARY}*
+	@rm -f coverage.out
 
 .PHONY: clean

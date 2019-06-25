@@ -5,7 +5,7 @@ workflow "CI" {
 
 action "install" {
   uses = "myles-systems/actions-golang@v1.12.6"
-  args = "go get -v"
+  args = "make install"
   env = {
     GO111MODULE = "on"
   }

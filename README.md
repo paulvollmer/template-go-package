@@ -1,4 +1,4 @@
-# template-go-package
+# template-go-package ![](https://img.shields.io/badge/version-0.0.0-blue.svg)
 
 ## Getting Started
 TODO: getting started text here...
@@ -13,4 +13,4 @@ TODO: about usage
 TODO: about development
 
 ## License
-TODO: about the license
+This library is distributed under the BSD-style license found in the [LICENSE](./LICENSE) file.

@@ -12,13 +12,10 @@ all: fmt lint test build
 fmt:
 	@go fmt ./...
 
-install-lint:
-	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-
 lint:
 	@golangci-lint run -E misspell ./...
 
-.PHONY: fmt install-lint lint
+.PHONY: fmt lint
 
 test:
 	@go test -count=1 ./...

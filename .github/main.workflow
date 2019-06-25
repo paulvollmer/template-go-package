@@ -4,7 +4,7 @@ workflow "CI" {
 }
 
 action "install" {
-  uses = "myles-systems/actions-golang@v1.12.6"
+  uses = "myles-systems/actions-golang@master"
   args = "go get -v"
   env = {
     GO111MODULE = "on"
@@ -12,16 +12,16 @@ action "install" {
 }
 
 action "lint" {
-  uses = "myles-systems/actions-golang@v1.12.6"
+  uses = "myles-systems/actions-golang@master"
   needs = ["install"]
-  args = "make install-lint && make lint"
+  args = "make lint"
   env = {
     GO111MODULE = "on"
   }
 }
 
 action "test" {
-  uses = "myles-systems/actions-golang@v1.12.6"
+  uses = "myles-systems/actions-golang@master"
   needs = ["lint"]
   args = "make"
   env = {
